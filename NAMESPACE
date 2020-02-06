@@ -1,1 +1,4 @@
 exportPattern("^[[:alpha:]]+")
+importFrom("stats", "IQR", "quantile", "sd", "mad", "median")
+importFrom("grDevices", "boxplot.stats")
+importFrom("EnvStats", "rosnerTest")
