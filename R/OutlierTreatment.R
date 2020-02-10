@@ -116,5 +116,5 @@ bestOutlierTreat <- function(data, dv)
   var<-rownames(var[(var$zeroVar=="FALSE"),])
   out<-data.frame(output)[,var]
   best_trans_metric <- names(total_matrix_all[which(out[,1] == max(out[,1]))[1]])
-  ifelse(best_trans_metric == "Original", return(list(outliers_treated = original_data, outliers_fit = NULL)), return(list(outliers_treated = outliers_treated, outliers_fit = outliers_fit)))
+  ifelse(best_trans_metric == "Original", return(list(outliers_treated = original_data, outliers_fit = NULL, continuous_cols = continuous_cols)), return(list(outliers_treated = outliers_treated, outliers_fit = outliers_fit, continuous_cols = continuous_cols)))
 }
