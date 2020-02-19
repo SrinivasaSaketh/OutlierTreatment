@@ -110,11 +110,21 @@ bestOutlierTreat <- function(data, dv)
   output<-do.call(rbind,pbmclapply(seq(1:2), model_my_data,
                                    data = total_matrix_all,
                                    mc.cores = 1))
-  output <- data.frame(output[, c("Rsquared", "MAE", "RMSE")])
-  print(output)
-  var<-nearZeroVar(output, saveMetrics = TRUE)
-  var<-rownames(var[(var$zeroVar=="FALSE"),])
-  out<-data.frame(output)[,var]
-  best_trans_metric <- names(total_matrix_all[which(out[,1] == max(out[,1]))[1]])
-  ifelse(best_trans_metric == "Original", return(list(outliers_treated = original_data, outliers_fit = NULL, continuous_cols = continuous_cols)), return(list(outliers_treated = outliers_treated, outliers_fit = outliers_fit, continuous_cols = continuous_cols)))
+  if (dist[dist$is_dv == T, ]$distribution == "Continous")
+  {
+    output <- data.frame(output[, c("Rsquared", "MAE", "RMSE")])
+    var <- c("Rsquared", "MAE", "RMSE")
+  } else
+  {
+    output <- data.frame(output[, c("Mean_F1", "Mean_Precision", "Mean_Recall")])
+    var <- c("Mean_F1", "Mean_Precision", "Mean_Recall")
+  }
+
+  # var<-nearZeroVar(output, saveMetrics = TRUE)
+  # var<-rownames(var[(var$zeroVar=="FALSE"),])
+  # out<-data.frame(output)[,var]
+  output$Method <- names(total_matrix_all)
+  best_trans_metric <- names(total_matrix_all[which(output[,1] == max(output[,1]))[1]])
+  output <- output[,c("Method", var)]
+  ifelse(best_trans_metric == "Original", return(list(outliers_treated = original_data, outliers_fit = NULL, continuous_cols = continuous_cols, model_perf_metrics = output)), return(list(outliers_treated = outliers_treated, outliers_fit = outliers_fit, continuous_cols = continuous_cols, model_perf_metrics = output)))
 }
