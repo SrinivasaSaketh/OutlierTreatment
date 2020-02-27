@@ -76,11 +76,12 @@ OutlierDetectionAndTreatment  <- function(data_col, select = 2)
 #' Takes in a data set and treats all the outliers using multiple outlier-detection techniques. After treating the entire dataset for any possible outliers, it checks if treating the dataset for outliers is actually necessary by comparing the base model performance for the treated and untreated datasets and returns the best one.
 #' @param data Any dataset that needs to be treated for outliers
 #' @param dv A string mentioning the column name of the Dv in the given data.
+#' @param select A metric to mark a data element as an outlier
 #' @return Returns an outlier treated data vector using Min-Max capping if the performance of the treated dataset is better than the original dataset along with the fit file.
 #' @export
-#' @usage bestOutlierTreat(data, dv)
+#' @usage bestOutlierTreat(data, dv, select)
 
-bestOutlierTreat <- function(data, dv)
+bestOutlierTreat <- function(data, dv, select=2)
 {
   # library(Tranformations)
   data <- data.frame(data)
@@ -95,7 +96,7 @@ bestOutlierTreat <- function(data, dv)
   # outliers_max <- list()
   for (i in 1:length(continuous_cols))
   {
-    qq <- OutlierDetectionAndTreatment(data[, continuous_cols[i]])
+    qq <- OutlierDetectionAndTreatment(data[, continuous_cols[i]], select)
     outliers_treated[[continuous_cols[i]]] <- qq$outlier_treated
     outliers_fit[[continuous_cols[i]]] <- qq$fit_outliers
     # outliers_max[[continuous_cols[i]]] <- qq$optimal_max

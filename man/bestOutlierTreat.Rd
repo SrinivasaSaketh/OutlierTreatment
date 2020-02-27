@@ -4,12 +4,14 @@
 \alias{bestOutlierTreat}
 \title{Treats the outliers present in the given dataset and checks if treating the dataset for outliers is actually necessary}
 \usage{
-bestOutlierTreat(data, dv)
+bestOutlierTreat(data, dv, select)
 }
 \arguments{
 \item{data}{Any dataset that needs to be treated for outliers}
 
 \item{dv}{A string mentioning the column name of the Dv in the given data.}
+
+\item{select}{A metric to mark a data element as an outlier}
 }
 \value{
 Returns an outlier treated data vector using Min-Max capping if the performance of the treated dataset is better than the original dataset along with the fit file.
