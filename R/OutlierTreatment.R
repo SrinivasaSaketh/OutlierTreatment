@@ -117,8 +117,15 @@ bestOutlierTreat <- function(data, dv, select=2)
     var <- c("Rsquared", "MAE", "RMSE")
   } else
   {
-    output <- data.frame(output[, c("Mean_F1", "Mean_Precision", "Mean_Recall")])
-    var <- c("Mean_F1", "Mean_Precision", "Mean_Recall")
+    if (length(unique(data.frame(data)[, dv])) == 2)
+    {
+      output <- data.frame(output[, c("F", "Precision", "Recall")])
+      var <- c("F", "Precision", "Recall")
+    } else
+    {
+      output <- data.frame(output[, c("Mean_F1", "Mean_Precision", "Mean_Recall")])
+      var <- c("Mean_F1", "Mean_Precision", "Mean_Recall")
+    }
   }
 
   # var<-nearZeroVar(output, saveMetrics = TRUE)
